@@ -1,0 +1,186 @@
+====================================================================================================================================================================
+
+GIT Version Control
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Git is the most popular version control system. A version control system records changes made to our code over time in a special database called REPOSITORY. We can track project history and We can easily revert back our project to an earlier state. Version control system can be centralized or distributed. Git is distributed(better)
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+git init	: initializes a new empty repository
+		  So in out current working director, there is .git folder(directory), which by default is hidden. This stores all details of our project history.
+		  If we do 'rm -rf .git', then we'll lose all of our project history.
+		  So, out git repository is a hidden directory in our project's directory(the folder in which you do git init)
+
+committing changes	: Committing is like taking a snapshot of our project work, which can be later viewed in history. Before committing, changes are made in the
+			  staging area, after which it is committed. So on committing, we permanently store this snapshot in the repository.
+			  The 'add' command is used to stage the changes.
+			  So think of it as 3 zones : working director, staging area, git repository
+			  
+			  1. WORKING DIRECTORY: The folder/directory in which we are working currently. Every change is recorded here as we work on the project.
+			  2. STAGING AREA: 	This is the part right before committing. Changes are made to staging area only when we say 'add'..
+			  3. GIT REPOSITORY:	This is the .git folder to which chnages are made after we do 'commit'.
+			  
+			  The git commit stores information about who made the commit, when it was made, etc and a "complete snapshot" of the project (the whole 				  project snapshot is stored, and not just the deltas/changes. This is why the project can be easily restored to a previous state quickly 				  (unlike in other version controls)( Git is very efficient at storing data - it compresses the content and doesnt store duplicate content.)
+			  
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+git add
+its not recommended to do 'git add .' , because this adds all the files. But sometimes we dont want to add the large files such as large binary files, log files, etc...  
+So 'add' allows us to prepare the snapshot in the staging area, ready to be committed.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+git commit -m "message"
+-m is for message, and then the message in "" to give the commit a short descriptions that identifies what this commit represents.
+
+You should not commit until you are very sure that you need to save these changes/snapshot... Thats the whole point of having a staging area.. To keep experimenting and changing before committing changes.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+git ls-files  	:	gives you the list of files/folders in the 'staging area'
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+git status
+
+indicated by red : 	(unstaged changes)	files not in the staging area yet               
+indicated by green: 	(staged changes)	files are in the staging area, and ready to be committed 
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+We can use commands like these to make changes directly in the staging area:
+git rm "filename"		(Note: its a git command since it starts with 'git')
+git mv "oldname" "newname"	(git command to rename)
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Note : These commands (ex:	git rm "filename" ) removes the file from both 'the current working directory' and 'the staging area'
+So if we want to make changes only to the staging area (and not to the current working directory), we can use 	--cached	, which removes only from the index (the staging area)
+
+Index is the old term for staging area.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+gitignore
+
+We dont want to add certain files to the staging area as we dont want git to track it. So theres a special file called 	.gitignore	to help (this file has no name and only the gitignore extension). File names added here will not be staged and tracked by git.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# is used to comment in git. So lines starting with '#' are ignored by git.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+As a good practice, always review your changes in the staging area before committing.
+To review these changes, we use 'diff'
+
+git diff		: compares the current working directory with the staging area. (It gives you the details of all the changes/differences between them)
+git diff --staged	: compares the staging area with the committed file.
+
+
+To visualize these changes, there are many visual diff tools
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+'head' is a reference to the current branch, and this is how git knows which branch we are currently working on.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+git log
+
+The 'git log' command is used to view the history of all the commits made.
+
+'git log --oneline'
+(to give only oneline description of the commits made, without the info of the author and date)
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+show
+
+To know about the details of each commit and the changes made in the commit, we can do
+	'git show the_unique_identifier_number'	(or)	'git show HEAD~1'	(which means 1 prev from the current where the head is pointing now' 
+
+Hence, using 'show' command, we can view the git objects. Git objects can be	commits, blobs(files), trees(directories), tags
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+restore
+
+This is used to restore a file from a previous commit
+To see its full synatx, ie the arguments it takes, we can do
+	git restore -h
+	
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+git push
+
+this uploads our files to a remote repository (a server on the cloud) on GitHub. So until the git commit stage, we were committing changes to the LOCAL REPO, but after we push, we have sent it to the REMOTE REPO on GitHub
+
+
+git pull
+Download the changes from the remote repo to your local machine (local repo)
+
+clone : 	Bring a repository that is hosted somewhere like Github into a folder on your machine.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SSH keys
+
+Once you link your local repo to the remote repo on github, every other time, how would git know its you who is pushing?
+So for that you use SSH keys, you generate a SSH key from your local device which generates two keys - 1 private and 1 public. The public one is the one you give to GitHub. Then everytime you try to access your remote repo from your local machine, it checks and compares the private and public ssh keys. Its mathematically proven that only this private key could have generated that public key.  
+
+This method of ssh keys using public key and private key is called ASYMMETRIC ENCRYPTION. Its speciality is that if you encode with one key (on one end of data transfer), you can decode with the other key (on the receiving end of data transfer).
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+git push origin master
+
+origin :	origin is basically a word that stands for the location of the git repository. In Git, "origin" is a shorthand name for the remote repository 		that a project was originally cloned from. More precisely, it is used instead of that original repository's URL.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Git work flow:
+
+Write code
+	(git add)
+Stage changes
+	(git commit)
+Commit changes
+	(git push)
+Push changes
+Make a pull request
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+====================================================================================================================================================================
+
+GIT BRANCHING and MERGING
+
+Branches allow us to work on different versions of the same file in parallel. And allow multiple people to work on it simultaneously.
+HEAD is a pointer that points to a branch that we are currently working on, ex- master.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+git branch <branch_name>    : 	to make a branch of name branch_name
+git branch		    : 	lists all the branches
+git checkout <branch_name>  : 	this moves the head pointer to that branch_name branch.
+
+When i'm on another branch (branch_name) and not the master, and i make a commit, then the branch_name branch moves to reference the newest commit, and the HEAD stays with it. The other branches would'nt change and remain at the previous commit.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+git merge branch_name
+( Note you need to type it only when you are in the master branch.)
+
+After you finished working on branches and you want to combine your work to the master branch, we use merge. There are two ways to do merging:
+1. Fast forward merge : 	
+The fast forward merge works only when theres a direct path between the branch_name and master (there should be other branches in b/w them)
+2. Three-way merge
+
+
+
+
+
+
+
