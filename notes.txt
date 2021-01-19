@@ -2,7 +2,7 @@
 
 GIT Version Control
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Git is the most popular version control system. A version control system records changes made to our code over time in a special database called REPOSITORY. We can track project history and We can easily revert back our project to an earlier state. Version control system can be centralized or distributed. Git is distributed(better)
 
